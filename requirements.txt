@@ -1,0 +1,11 @@
+asgiref==3.8.1
+certifi==2023.11.17
+charset-normalizer==3.4.4
+Django==5.0.6
+graphics.py==5.0.1.post1
+idna==3.11
+pio==0.0.3
+requests==2.32.5
+sqlparse==0.5.3
+urllib3==2.6.3
+vaderSentiment==3.3.2
