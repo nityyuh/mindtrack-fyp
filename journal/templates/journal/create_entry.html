@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+<div class="container">
+<head>
+    <title> new journal entry </title>
+    <link rel="stylesheet" href="{% static 'journal/style.css' %}">
+</head>
+<body class="{% if user.is_authenticated %}{{ user.profile.theme }}{% else %}light{% endif %}">
+
+    <a href="{% url 'home' %}">
+        <button style="margin-bottom:10px;"> 🏠 home</button>
+    </a>
+    <a href="{% url 'create_entry' %}">
+        <button style="margin-bottom:10px;"> 📝 new entry</button>
+    </a>
+    <a href="{% url 'logout' %}">
+        <button style="margin-bottom:10px;"> 🚪 log out</button>
+    </a>
+    <a href="{% url 'dashboard' %}">
+        <button style="margin-bottom: 10px;"> my dashboard </button>
+    </a>
+    <h2> new journal entry </h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit"> save entry </button>
+    </form>
+
+    <h3> your entries </h3>
+    <ul>
+        {% for entry in entries %}
+        <li>
+            <strong> {{ entry.created_at}}</strong> <br>
+            {{ entry.content }} <br>
+            <em> sentiment: {{ entry.sentiment_label }} ({{ entry.sentiment_score}})</em>
+        </li>
+    {% empty %}
+    <li> no entries yet </li>
+    {% endfor %}
+
+    </ul>
+
+    <p><a href="/admin/"> admin </a></p>
+</body>
+</div>
+</html>

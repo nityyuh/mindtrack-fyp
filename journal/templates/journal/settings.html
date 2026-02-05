@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>settings | mindtrack</title>
+  <link rel="stylesheet" href="{% static 'journal/style.css' %}">
+</head>
+
+<body class="{% if user.is_authenticated %}{{ user.profile.theme }}{% else %}light{% endif %}">
+  <div class="page-center">
+    <div class="container">
+      <h2>settings ⚙️</h2>
+      <p class="subtitle">theme editing coming next.</p>
+      <a href="{% url 'dashboard' %}"><button>back to dashboard</button></a>
+    </div>
+  </div>
+</body>
+</html>

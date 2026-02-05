@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> mindtrack </title>
+    <link rel="stylesheet" href="{% static 'journal/style.css' %}">
+</head>
+<body class="{% if user.is_authenticated %}{{ user.profile.theme }}{% else %}light{% endif %}">
+
+<div class="page-center">
+<div class="container">
+    <h1>mindtrack</h1>
+    <p class="subtitle">
+        a student-focused journaling app supporting academic wellbeing.
+    </p>
+
+<div class="button-group">
+    <form action="{% url 'login' %}">
+        <button type="submit" class="btn">🔐 log in</button>
+    </form>
+
+    <form action="{% url 'register' %}">
+        <button type="submit" class="btn secondary"> ✍️ register</button>
+    </form>
+</div>
+
+</div>
+</div>
+</body>
+</html>

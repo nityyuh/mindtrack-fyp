@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title> register </title>
+    <link rel="stylesheet" href="{% static 'journal/style.css' %}">
+</head>
+<body class="{% if user.is_authenticated %}{{ user.profile.theme }}{% else %}light{% endif %}">
+
+<div class="page-center">
+<div class="container">
+    <h2> create an account </h2>
+
+    {% if form.errors %}
+    <div class="error-box">
+        <ul>
+            {% for field in form %}
+             {% for error in field.errors %}
+              <li> {{ error }} </li>
+             {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        {{ form.username.label_tag }} {{ form.username}}
+        {{ form.email.label_tag }} {{ form.email}}
+        {{ form.password1.label_tag}} {{ form.password1 }}
+        {{form.password2.label_tag}} {{ form.password2 }}
+      
+
+        <div class="password-hint">
+            <small>
+                password must be at least 8 characters 
+            </small>
+        </div>
+
+        <h3> choose a theme </h3>
+        <div class="theme-picker">
+  <div class="theme-card light" id="theme-light" onclick="selectTheme('light')">
+    Light
+  </div>
+  <div class="theme-card dark" id="theme-dark" onclick="selectTheme('dark')">
+    Dark
+  </div>
+  <div class="theme-card pastel" id="theme-pastel" onclick="selectTheme('pastel')">
+    Pastel
+  </div>
+</div>
+
+<input type="hidden" name="theme" id="id_theme" value="light">
+
+
+        
+         
+        <button type="submit"> register </button>
+    </form>
+
+    <script>
+        function selectTheme(theme) {
+
+            document.body.classList.remove('light', 'dark', 'pastel');
+            document.body.classList.add(theme);
+
+            document.querySelectorAll('.theme-card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            document.getElementById(`theme-${theme}`).classList.add('active');
+
+
+            document.getElementById('id_theme').value = theme;
+        }
+
+        selectTheme('light');
+
+    </script>
+</div>
+</div>
+</body>
+</html>

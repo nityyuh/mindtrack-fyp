@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title> my dashboard </title>
+    <link rel="stylesheet" href="{%static 'journal/style.css' %}">
+</head>
+<body class="{% if user.is_authenticated %}{{ user.profile.theme }}{% else %}light{% endif %}">
+
+<div class="page">
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="brand"> mindtrack </span>
+        </div>
+        <div class="nav-right">
+            <a class="nav-link" href="{% url 'dashboard' %}"> my dashboard </a>
+            <a class="nav-link" href="{% url 'create_entry' %}"> new entry </a>
+            <a class="nav-icon" href="{% url 'settings' %}" title="settings"> ⚙️ </a>
+            <a class="nav-link" href="{% url 'logout' %}"> logout </a>
+        </div>
+    </nav>
+<div class="page-center">
+<div class="container">
+    <div class="dash-header">
+        <div>
+            <h2> welcome, {{ request.user.username }} 👋 </h2>
+            <p class="subtitle"> track your mood and manage academic
+                stress in one place
+            </p>
+        </div>
+        <a href="{% url 'create_entry' %}"><button class="btn"> new journal entry </button></a>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3> your theme </h3>
+                <p class="pill"> {{ user.profile.theme | title }} </p>
+                <p class="muted"> you can change this in settings </p>
+            </div>
+            <div class="card">
+                <h3> latest sentiment </h3>
+                {% if entries %}
+                <p class="pill">{{ entries.0.sentiment_label|default:"N/A"|title }}</p>
+                <p class="muted">Score: {{ entries.0.sentiment_score|default:"-" }}</p>
+                {% else %}
+                <p class="muted"> no entries yet </p>
+                {% endif %}
+            </div>
+            <div class="card">
+                <h3> stress prediction </h3>
+                <p class="muted"> coming next: deadline-based stress score </p>
+            </div>
+        </div>
+
+        <h3 class="section-title"> recent entries </h3>
+
+        {% if entries %}
+        <ul class="entry-list">
+            {% for entry in entries %}
+            <li class="entry">
+                <div class="entry-top">
+                    <span class="entry-date"> {{entry.created_at}} </span>
+                    <span class="entry-sentiment"> {{entry.sentiment_label | title }}({{entry.sentiment_score}})</span>
+                </div>
+                <div class="entry-content"> {{entry.content}}</div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="muted"> no entries yet. create your first entry to see sentiment feedback </p>
+        {% endif %}
+    
+</div>
+</div>
+</div>
+</body>
+</html>
